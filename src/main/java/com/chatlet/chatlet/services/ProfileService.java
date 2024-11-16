@@ -1,13 +1,16 @@
 package com.chatlet.chatlet.services;
 
 import com.chatlet.chatlet.data.dtos.ProfileDto;
+import com.chatlet.chatlet.data.entities.Auth;
 import com.chatlet.chatlet.data.entities.Profile;
+import com.chatlet.chatlet.data.securityEntities.SecurityUser;
 import com.chatlet.chatlet.repositories.AuthRepository;
 import com.chatlet.chatlet.repositories.ProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.chatlet.chatlet.utils.ObjectMappers.profileToDto;
 
@@ -20,16 +23,25 @@ public class ProfileService {
 
     public ProfileDto getProfile() {
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Profile profile = authRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found")).getProfile();
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Profile profile = securityUser.getAuth().getProfile();
         return profileToDto(profile);
     }
 
+    @Transactional
     public void updateProfile(ProfileDto profileDto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Profile profile = authRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found")).getProfile();
+        Auth auth = securityUser.getAuth();
+        Profile profile;
+
+        if (auth.getProfile() == null) {
+            profile = new Profile();
+            profile.setAuth(auth);
+        } else  {
+            profile = auth.getProfile();
+        }
+
         profile.setFirstname(profileDto.getFirstname());
         profile.setLastname(profileDto.getLastname());
         profile.setGender(profileDto.getGender());

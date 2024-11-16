@@ -16,7 +16,7 @@ public class Auth {
     private Long id;
 
 
-
+    @Column(unique = true)
     private String username;
 
 
@@ -29,10 +29,11 @@ public class Auth {
     private Boolean isDisabled;
 
 
-    @OneToOne()
+    @OneToOne(mappedBy = "auth")
     private Profile profile;
 
+    @OneToMany()
+    private Collection<Message> messages;
 
-    @OneToMany
-    private Collection<Contact> contacts;
+
 }

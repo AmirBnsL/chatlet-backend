@@ -4,8 +4,10 @@ package com.chatlet.chatlet.controllers;
 import com.chatlet.chatlet.data.dtos.ProfileDto;
 import com.chatlet.chatlet.data.dtos.ResponseDTO;
 import com.chatlet.chatlet.services.ProfileService;
+import jdk.jfr.ContentType;
 import lombok.AllArgsConstructor;
 import org.aspectj.weaver.NewConstructorTypeMunger;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,8 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/profile")
+    @PostMapping(value = "/profile")
+
     public ResponseEntity<ResponseDTO> updateProfile(@RequestBody ProfileDto profileDto) {
 
         profileService.updateProfile(profileDto);
