@@ -23,11 +23,12 @@ public class Profile {
 
     private LocalDate birth;
 
-    private Boolean gender;
+    private String gender;
 
     private String pictureLink;
 
     @OneToOne()
+    @JoinColumn(name = "id")
     private Auth auth;
 
 

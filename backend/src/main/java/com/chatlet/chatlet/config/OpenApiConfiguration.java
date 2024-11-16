@@ -1,3 +1,5 @@
+package com.chatlet.chatlet.config;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -18,7 +20,7 @@ public class OpenApiConfiguration {
                                 .addSecuritySchemes(securitySchemeName,
                                         new SecurityScheme()
                                                 .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
+                                                .type(SecurityScheme.Type.APIKEY)
                                                 .scheme("bearer")
                                                 .bearerFormat("JWT")
                                 )

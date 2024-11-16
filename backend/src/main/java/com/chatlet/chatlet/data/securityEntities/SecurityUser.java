@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @AllArgsConstructor
+@Getter
+@Setter
 public class SecurityUser implements UserDetails {
 
     private final Auth auth;

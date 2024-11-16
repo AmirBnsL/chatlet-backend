@@ -11,11 +11,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.annotation.web.socket.EnableWebSocketSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -34,6 +38,8 @@ public class SecurityConfig {
 
     private RsaKeyProperties rsaKeyProperties;
 
+    private ChatletUserDetailsService chatletUserDetailsService;
+    private CustomJwtAuthorizationConverter customJwtAuthorizationConverter;
 
 
     @Bean
@@ -52,9 +58,11 @@ public class SecurityConfig {
 
 
         http.httpBasic(Customizer.withDefaults());
-        http.authorizeHttpRequests(c -> c.requestMatchers("/register","/v3/**", "/swagger-ui/**").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests(c -> c.requestMatchers("/register","/v3/**", "/swagger-ui/**","/topic/**","/ws/message").permitAll().anyRequest().authenticated());
 
-        http.oauth2ResourceServer((c)-> c.jwt(Customizer.withDefaults()));
+        http.oauth2ResourceServer((c)-> c.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthorizationConverter)));
+        http.userDetailsService(chatletUserDetailsService);
+
 
         return http.build();
     }
@@ -63,6 +71,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 
 
@@ -78,4 +87,6 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
+
+
 }

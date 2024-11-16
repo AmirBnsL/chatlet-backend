@@ -16,7 +16,7 @@ public class ProfileDto {
 
     private LocalDate birth;
 
-    private Boolean gender;
+    private String gender;
 
     private String pictureLink;
 
