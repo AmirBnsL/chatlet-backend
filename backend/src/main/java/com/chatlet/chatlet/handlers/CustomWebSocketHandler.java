@@ -29,7 +29,6 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws IOException {
 
         var principal = session.getPrincipal();
-        session.sendMessage(new TextMessage(principal.getName()));
 
         if (principal == null || principal.getName() == null) {
             session.close(SERVER_ERROR.withReason("User must be authenticated"));
@@ -58,6 +57,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         try {
         MessageDTO messageDTO = objectMapper.readValue(message.getPayload(), MessageDTO.class);
             messageService.sendMessage(messageDTO);
+            session.sendMessage(message);
         sendMessageToUser(messageDTO.getReceiver(), message);
         } catch (UsernameNotFoundException | JsonProcessingException e) {
             session.sendMessage(new TextMessage(e.getMessage()));

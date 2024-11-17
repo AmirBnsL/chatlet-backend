@@ -97,7 +97,7 @@ public class DataLoader implements CommandLineRunner {
         message.setSender(auth.getUsername());
         message.setReceiver(auth2.getUsername());
         message.setTimestamp(Timestamp.from(Instant.now()));
-        message.setMessage("damn you thicc");
+        message.setMessage("goodbye");
         message.setMessageType("TEXT");
         messageRepository.save(message);
 
@@ -106,7 +106,7 @@ public class DataLoader implements CommandLineRunner {
         message1.setSender(auth.getUsername());
         message1.setReceiver(auth2.getUsername());
         message1.setTimestamp(Timestamp.from(Instant.now()));
-        message1.setMessage("damn you fat");
+        message1.setMessage("good morning");
         message1.setMessageType("TEXT");
         messageRepository.save(message1);
 
@@ -115,7 +115,7 @@ public class DataLoader implements CommandLineRunner {
         message3.setSender(auth.getUsername());
         message3.setReceiver(auth2.getUsername());
         message3.setTimestamp(Timestamp.from(Instant.now()));
-        message3.setMessage("damn you dumb");
+        message3.setMessage("hello amir how are you doing?");
         message3.setMessageType("TEXT");
         messageRepository.save(message3);
         contact1.getMessages().add(message);
