@@ -53,6 +53,10 @@ public class AuthService {
         authRepository.delete(auth);
     }
 
+    public String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     public void disableAccount() {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

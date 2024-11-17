@@ -61,7 +61,7 @@ public class AuthController {
 
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccess(true);
-        responseDTO.setMessage("JWT is valid");
+        responseDTO.setMessage(authService.getUsername());
 
 
         return ResponseEntity.ok(responseDTO);
