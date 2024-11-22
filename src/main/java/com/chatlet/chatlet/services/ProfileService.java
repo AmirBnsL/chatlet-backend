@@ -11,6 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static com.chatlet.chatlet.utils.ObjectMappers.profileToDto;
 
@@ -52,5 +58,16 @@ public class ProfileService {
 
 
 
+    }
+
+    public void uploadPicture(MultipartFile picture) throws IOException {
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Profile profile = securityUser.getAuth().getProfile();
+        File file = new File("src/main/resources/static/images/" + picture.getOriginalFilename());
+
+        picture.transferTo(file.toPath());
+
+        profile.setPictureLink(picture.getOriginalFilename());
+        profileRepository.save(profile);
     }
 }

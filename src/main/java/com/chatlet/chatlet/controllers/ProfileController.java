@@ -9,10 +9,10 @@ import lombok.AllArgsConstructor;
 import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
@@ -29,7 +29,6 @@ public class ProfileController {
 
 
     @PostMapping(value = "/profile")
-
     public ResponseEntity<ResponseDTO> updateProfile(@RequestBody ProfileDto profileDto) {
 
         profileService.updateProfile(profileDto);
@@ -38,6 +37,17 @@ public class ProfileController {
         responseDTO.setMessage("Profile updated successfully");
         return ResponseEntity.ok(responseDTO);
 
+    }
+
+
+    @PostMapping(value = "/picture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseDTO> uploadPicture(@RequestParam("file") MultipartFile picture) throws IOException {
+
+        profileService.uploadPicture(picture);
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setSuccess(true);
+        responseDTO.setMessage("Picture uploaded successfully");
+        return ResponseEntity.ok(responseDTO);
     }
 
 
