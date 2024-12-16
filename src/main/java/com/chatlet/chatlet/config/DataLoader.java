@@ -42,7 +42,7 @@ public class DataLoader implements CommandLineRunner {
         profile.setAuth(auth);
         profile.setFirstname("Amir");
         profile.setLastname("benslaimi");
-        profile.setPictureLink("string");
+        profile.setPictureLink("1.jpeg");
         profile.setGender("MALE");
         profile.setBirth(LocalDate.now());
         profileRepository.save(profile);
@@ -59,12 +59,12 @@ public class DataLoader implements CommandLineRunner {
         profile2.setAuth(auth2);
         profile2.setFirstname("Amir");
         profile2.setLastname("hydra");
-        profile2.setPictureLink("string");
+        profile2.setPictureLink("2.jpeg");
         profile2.setGender("MALE");
         profile2.setBirth(LocalDate.now());
         profileRepository.save(profile2);
 
-        Auth auth3 = new Auth();
+        Auth auth3 = new Auth();    
         auth3.setUsername("mohamedjijly");
         auth3.setPassword(passwordEncoder.encode("0793009170"));
         auth3.setEmail("mohjijly@gmail.com");

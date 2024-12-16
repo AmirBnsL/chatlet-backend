@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Builder
 public class ProfileDto {
 
-
+    private String username;
     private String firstname;
 
     private String lastname;

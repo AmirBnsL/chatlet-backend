@@ -7,6 +7,7 @@ import com.chatlet.chatlet.data.securityEntities.SecurityUser;
 import com.chatlet.chatlet.repositories.AuthRepository;
 import com.chatlet.chatlet.repositories.ProfileRepository;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.chatlet.chatlet.utils.ObjectMappers.profileToDto;
 
@@ -31,7 +35,9 @@ public class ProfileService {
 
         SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Profile profile = securityUser.getAuth().getProfile();
-        return profileToDto(profile);
+        ProfileDto profileDto = profileToDto(profile);
+        profileDto.setUsername(securityUser.getUsername());
+        return profileDto;
     }
 
     @Transactional
@@ -52,8 +58,7 @@ public class ProfileService {
         profile.setLastname(profileDto.getLastname());
         profile.setGender(profileDto.getGender());
         profile.setBirth(profileDto.getBirth());
-        profile.setPictureLink(profileDto.getPictureLink());
-
+        //we dont update profile picture because it is being updated on upload rather than profile edit
         profileRepository.save(profile);
 
 
@@ -63,11 +68,42 @@ public class ProfileService {
     public void uploadPicture(MultipartFile picture) throws IOException {
         SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Profile profile = securityUser.getAuth().getProfile();
-        File file = new File("src/main/resources/static/images/" + picture.getOriginalFilename());
+        String modifiedFileName = profile.getAuth().getId().toString() + picture.getOriginalFilename().substring(picture.getOriginalFilename().lastIndexOf("."));
+
+        File file = new File("src/main/resources/static/images/" + modifiedFileName);
 
         picture.transferTo(file.toPath());
 
-        profile.setPictureLink(picture.getOriginalFilename());
+        profile.setPictureLink(modifiedFileName);
         profileRepository.save(profile);
     }
+
+    public Pair<byte[],String> getPicture() throws IOException {
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Profile profile = securityUser.getAuth().getProfile();
+        Path path = Paths.get("src/main/resources/static/images/" + profile.getPictureLink());
+
+
+        byte[] fileBytes = Files.readAllBytes(path);
+        String contentType = Files.probeContentType(path);
+
+
+        return Pair.of(fileBytes,contentType);
+    }
+
+    public Pair<byte[],String> getPicture(String pictureLink) throws IOException {
+
+        Path path = Paths.get("src/main/resources/static/images/" + pictureLink);
+        if (!Files.exists(path)) {
+            throw new IOException("File not found");
+        }
+
+
+        byte[] fileBytes = Files.readAllBytes(path);
+        String contentType = Files.probeContentType(path);
+
+
+        return Pair.of(fileBytes,contentType);
+    }
+
 }

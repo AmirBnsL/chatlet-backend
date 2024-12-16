@@ -35,6 +35,21 @@ public class AuthController {
 
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<ResponseDTO> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setAttribute("SameSite", "lax");
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Set max age to 0 to delete the cookie
+        response.addCookie(cookie);
+
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setSuccess(true);
+        responseDTO.setMessage("User logged out successfully");
+        return ResponseEntity.ok(responseDTO);
+    }
 
     @GetMapping("/token")
     public ResponseEntity<ResponseDTO> token(Authentication authentication, HttpServletResponse response) {

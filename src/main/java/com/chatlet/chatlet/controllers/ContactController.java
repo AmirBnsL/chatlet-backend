@@ -1,7 +1,6 @@
 package com.chatlet.chatlet.controllers;
 
 import com.chatlet.chatlet.data.dtos.ResponseDTO;
-import com.chatlet.chatlet.data.entities.Contact;
 import com.chatlet.chatlet.data.projections.ContactInfo;
 import com.chatlet.chatlet.services.ContactService;
 import lombok.AllArgsConstructor;
@@ -50,6 +49,8 @@ public class ContactController {
         return ResponseEntity.ok(responseDTO);
 
     }
+
+
 
     @GetMapping("/contacts")
     ResponseEntity<Collection<ContactInfo>> getContacts() {
