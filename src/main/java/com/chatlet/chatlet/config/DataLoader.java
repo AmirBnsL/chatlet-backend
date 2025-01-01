@@ -59,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
         profile2.setAuth(auth2);
         profile2.setFirstname("Amir");
         profile2.setLastname("hydra");
-        profile2.setPictureLink("2.jpeg");
+        profile2.setPictureLink("2.png");
         profile2.setGender("MALE");
         profile2.setBirth(LocalDate.now());
         profileRepository.save(profile2);

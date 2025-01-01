@@ -8,6 +8,7 @@ class ChatletApplicationTests {
 
     @Test
     void contextLoads() {
+//do nothing
     }
 
 }

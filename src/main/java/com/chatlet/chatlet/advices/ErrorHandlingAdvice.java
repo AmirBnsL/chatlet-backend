@@ -3,8 +3,6 @@ package com.chatlet.chatlet.advices;
 import com.chatlet.chatlet.data.dtos.ResponseDTO;
 import com.chatlet.chatlet.exceptions.AccountExistsException;
 import jakarta.servlet.http.HttpServletResponse;
-import jdk.jshell.Snippet;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

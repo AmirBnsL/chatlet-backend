@@ -37,6 +37,19 @@ public class ObjectMappers {
         return messages.stream().map(ObjectMappers::messageToDTO).toList();
     }
 
+    public static ContactDTO contactToDTO(Contact contact) {
+        return ContactDTO.builder()
+                .id(contact.getId())
+                .username(contact.getContactId().getUsername())
+                .avatarLink(contact.getContactId().getProfile().getPictureLink())
+                .build();
+    }
+
+    public static Collection<ContactDTO> contactsToDTOs(Collection<Contact> contacts) {
+        return contacts.stream().map(ObjectMappers::contactToDTO).toList();
+    }
+    
+
 
 
     

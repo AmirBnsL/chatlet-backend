@@ -4,11 +4,9 @@ package com.chatlet.chatlet.controllers;
 import com.chatlet.chatlet.data.dtos.ProfileDto;
 import com.chatlet.chatlet.data.dtos.ResponseDTO;
 import com.chatlet.chatlet.services.ProfileService;
-import com.sun.net.httpserver.Headers;
-import jdk.jfr.ContentType;
+
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
-import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -70,7 +68,7 @@ public class ProfileController {
 
 
 
-    //TODO: use username instead of picturelink
+    //TODO: use username instead of picture link
     @GetMapping("/profile/picture/{pictureLink}")
     public ResponseEntity<byte[]> getPicture(@PathVariable String pictureLink) throws IOException {
         Pair<byte[],String> picture = profileService.getPicture(pictureLink);

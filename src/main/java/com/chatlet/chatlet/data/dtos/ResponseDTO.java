@@ -1,6 +1,6 @@
 package com.chatlet.chatlet.data.dtos;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 
 @Data

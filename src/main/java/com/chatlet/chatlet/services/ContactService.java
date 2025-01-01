@@ -1,6 +1,7 @@
 
 package com.chatlet.chatlet.services;
 
+import com.chatlet.chatlet.data.dtos.ContactDTO;
 import com.chatlet.chatlet.data.entities.Auth;
 import com.chatlet.chatlet.data.entities.Contact;
 import com.chatlet.chatlet.data.projections.ContactInfo;
@@ -16,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
+
+import static com.chatlet.chatlet.utils.ObjectMappers.contactToDTO;
+
 
 @Service
 @AllArgsConstructor
@@ -37,9 +41,11 @@ public class ContactService {
 
         Auth auth = securityUser.getAuth();
 
-        return  contactRepository.findAllContactsInfoByUserId(auth.getId());
+        return contactRepository.findAllContactsInfoByUserId(auth.getId());
         
     }
+
+
 
 
     @Transactional
@@ -93,6 +99,11 @@ public class ContactService {
 
         return contactRepository.findByUserIdAndContactIdAndIsFriend(auth, contactAuth, false).orElseThrow(()-> new UsernameNotFoundException("Contact Not Found"));
     }
+
+    private ContactDTO getContactDTO(String username) {
+        return  contactToDTO(getContact(username));
+    }
+
 
     public void rejectInvite(String username) {
 

@@ -1,6 +1,4 @@
 package com.chatlet.chatlet.controllers;
-
-
 import com.chatlet.chatlet.data.dtos.RegisterDTO;
 import com.chatlet.chatlet.data.dtos.ResponseDTO;
 import com.chatlet.chatlet.services.AuthService;
@@ -8,10 +6,8 @@ import com.chatlet.chatlet.services.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,8 +73,6 @@ public class AuthController {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccess(true);
         responseDTO.setMessage(authService.getUsername());
-
-
         return ResponseEntity.ok(responseDTO);
 
     }

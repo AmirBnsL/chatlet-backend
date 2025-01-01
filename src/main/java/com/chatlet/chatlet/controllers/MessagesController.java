@@ -4,7 +4,6 @@ package com.chatlet.chatlet.controllers;
 import com.chatlet.chatlet.data.dtos.MessageDTO;
 import com.chatlet.chatlet.services.MessageService;
 import lombok.AllArgsConstructor;
-import org.springframework.messaging.handler.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
