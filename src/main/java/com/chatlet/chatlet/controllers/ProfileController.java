@@ -69,13 +69,24 @@ public class ProfileController {
 
 
     //TODO: use username instead of picture link
-    @GetMapping("/profile/picture/{pictureLink}")
-    public ResponseEntity<byte[]> getPicture(@PathVariable String pictureLink) throws IOException {
-        Pair<byte[],String> picture = profileService.getPicture(pictureLink);
+    @GetMapping("/profile/picture/{username}")
+    public ResponseEntity<byte[]> getPicture(@PathVariable String username) throws IOException {
+        Pair<byte[],String> picture = profileService.getPicture(username);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(picture.getRight()));
         headers.setContentLength(picture.getLeft().length);
         return new ResponseEntity<>(picture.getLeft(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/picture/base64/{username}")
+    public ResponseEntity<ResponseDTO> getPictureBase64(@PathVariable String username) throws IOException {
+        Pair<byte[],String> picture = profileService.getPicture(username);
+        String base64 = java.util.Base64.getEncoder().encodeToString(picture.getLeft());
+        String base64WithMediaType = "data:"+MediaType.valueOf(picture.getRight())+";base64,"+base64;
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setSuccess(true);
+        responseDTO.setMessage(base64WithMediaType);
+        return ResponseEntity.ok(responseDTO);
     }
 
 

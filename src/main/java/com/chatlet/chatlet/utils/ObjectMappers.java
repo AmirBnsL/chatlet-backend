@@ -17,7 +17,6 @@ public class ObjectMappers {
                 .lastname(profile.getLastname())
                 .birth(profile.getBirth())
                 .gender(profile.getGender())
-                .pictureLink(profile.getPictureLink())
                 .birth(profile.getBirth())
                 .build();
     }
@@ -41,7 +40,6 @@ public class ObjectMappers {
         return ContactDTO.builder()
                 .id(contact.getId())
                 .username(contact.getContactId().getUsername())
-                .avatarLink(contact.getContactId().getProfile().getPictureLink())
                 .build();
     }
 

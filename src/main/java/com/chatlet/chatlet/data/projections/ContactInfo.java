@@ -5,5 +5,5 @@ public interface ContactInfo {
 
     String getUsername();
 
-    String getPictureLink();
+
 }

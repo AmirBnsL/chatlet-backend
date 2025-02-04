@@ -18,7 +18,6 @@ public class ProfileDto {
 
     private String gender;
 
-    private String pictureLink;
 
 
 }

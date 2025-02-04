@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 import static com.chatlet.chatlet.utils.ObjectMappers.profileToDto;
 
@@ -91,7 +93,11 @@ public class ProfileService {
         return Pair.of(fileBytes,contentType);
     }
 
-    public Pair<byte[],String> getPicture(String pictureLink) throws IOException {
+    public Pair<byte[],String> getPicture(String username) throws IOException {
+
+        Auth auth = authRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("User not found"));
+        Profile profile = auth.getProfile();
+        String pictureLink = profile.getPictureLink();
 
         Path path = Paths.get("src/main/resources/static/images/" + pictureLink);
         if (!Files.exists(path)) {
@@ -105,5 +111,13 @@ public class ProfileService {
 
         return Pair.of(fileBytes,contentType);
     }
+
+    public String getBase64EncodedImage(String imagePath) throws IOException {
+        Path path = Paths.get(imagePath);
+        byte[] imageBytes = Files.readAllBytes(path);
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
+
+
 
 }

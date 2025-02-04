@@ -11,6 +11,6 @@ public class ContactDTO {
 
     private String username;
 
-    private String avatarLink;
+
     
 }
