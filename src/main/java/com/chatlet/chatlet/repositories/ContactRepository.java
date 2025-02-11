@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long>{
 
-    @Query(value = "SELECT id,picture_link,username FROM contact c join auth a on a.id = c.user_id OR a.id=c.contact_id join profile p on a.id = p.id WHERE (contact_id=:id OR user_id=:id) AND (a.id!=:id)",nativeQuery = true)
+    @Query(value = "SELECT a.id,picture_link,username FROM contact c join auth a on a.id = c.user_id OR a.id=c.contact_id join profile p on a.id = p.id WHERE (contact_id=:id OR user_id=:id) AND (a.id!=:id)",nativeQuery = true)
     Collection<ContactInfo> findAllContactsInfoByUserId(Long id);
 
 
