@@ -74,7 +74,7 @@ public class DataLoader implements CommandLineRunner {
         profile3.setAuth(auth3);
         profile3.setFirstname("moh");
         profile3.setLastname("bouchemella");
-        profile3.setPictureLink("string");
+        profile3.setPictureLink("2.png");
         profile3.setGender("MALE");
         profile3.setBirth(LocalDate.now());
         profileRepository.save(profile3);
